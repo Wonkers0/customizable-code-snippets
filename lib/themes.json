@@ -1,0 +1,27 @@
+{
+  "dark": {
+    "function": "#e5c07b",
+    "keyword": "#c678dd",
+    "string": "#98c379",
+    "parameter": "#e06c75",
+    "tag": "#e06c75",
+    "boolean": "#d19a66",
+    "number": "#d19a66",
+    "comment": "#7f848e",
+    "background": "#1e1e1e",
+    "highlight": "#ffffff0a",
+    "default": "#d4d4d4"
+  },
+  "react-docs": {
+    "function": "#86d9ca",
+    "keyword": "#77b7d7",
+    "string": "#977cdc",
+    "boolean": "#c64640",
+    "number": "#c64640",
+    "comment": "#757575",
+    "background": "#16181d",
+    "tag": "#dfab5c",
+    "highlight": "#fffbdd19",
+    "default": "#f6f7f9"
+  }
+}
