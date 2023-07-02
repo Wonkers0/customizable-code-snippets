@@ -24,21 +24,27 @@ interface Props {
 export type SyntaxRuleRecord = Record<SyntaxIdentifier, SyntaxRule[]>;
 
 export const CodeSnippetContext = createContext<CodeSnippetConfig>(
-  new CodeSnippetConfig("js", null, {} as SyntaxRuleRecord).setTheme("dark")
+  new CodeSnippetConfig("js", {} as SyntaxRuleRecord).setTheme("dark")
 );
 
+const defaultTheme = "dark";
 export default function CodeSnippet({
   code,
   language,
   className = "",
   id = "",
-  themeName = "dark",
+  themeName = "", // Default value helps typescript infer the type from the build file
+  customTheme = {} as ThemeObject, // Default value helps typescript infer the type from the build file
   highlightedLinesPattern = "",
   syntaxRules = {} as SyntaxRuleRecord,
 }: Props) {
   const highlightedCode = useSyntaxHighlighter(code, language);
   const codeLines = useCodeLineRenderer(highlightedCode, highlightedLinesPattern);
-  const codeSnippetConfig = useCodeSnippetConfig(language, themeName, syntaxRules);
+  const codeSnippetConfig = useCodeSnippetConfig(
+    language,
+    getActiveTheme(themeName, customTheme, "dark"),
+    syntaxRules
+  );
   const currentTheme = codeSnippetConfig.getTheme();
 
   return (
@@ -62,10 +68,18 @@ function useCodeSnippetConfig(
   theme: string | ThemeObject,
   syntaxRules: SyntaxRuleRecord
 ) {
-  const themeCollection = useThemeCollection();
-
   return useMemo(
-    () => new CodeSnippetConfig(language, themeCollection, syntaxRules).setTheme(theme),
-    [language, theme, themeCollection, syntaxRules]
+    () => new CodeSnippetConfig(language, syntaxRules).setTheme(theme),
+    [language, theme, syntaxRules]
   );
+}
+
+function getActiveTheme(
+  themeName: string,
+  customTheme: ThemeObject,
+  defaultTheme: string | ThemeObject
+): string | ThemeObject {
+  if (themeName.length != 0) return themeName;
+  if (Object.keys(customTheme).length != 0) return customTheme;
+  return defaultTheme;
 }

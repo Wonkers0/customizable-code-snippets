@@ -1,20 +1,19 @@
-import { Theme, ThemeCollection, ThemeObject } from "../hooks/useThemeCollection";
+import useThemeCollection, {
+  Theme,
+  ThemeCollection,
+  ThemeObject,
+} from "../hooks/useThemeCollection";
 import { SyntaxRuleRecord } from "./CodeSnippet";
 
 export default class CodeSnippetConfig {
   language: string;
   themeID?: string;
   customTheme?: Theme;
-  themeCollection: ThemeCollection | null;
   syntaxRules: SyntaxRuleRecord;
+  themeCollection: ThemeCollection = useThemeCollection();
 
-  constructor(
-    language: string,
-    themeCollection: ThemeCollection | null,
-    syntaxRules: SyntaxRuleRecord
-  ) {
+  constructor(language: string, syntaxRules: SyntaxRuleRecord) {
     this.language = language;
-    this.themeCollection = themeCollection;
     this.syntaxRules = syntaxRules;
   }
 
