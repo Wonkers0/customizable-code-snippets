@@ -1,7 +1,10 @@
 import Prism from "prismjs";
-import "prismjs/components/prism-jsx.min";
+import "prismjs/components/prism-jsx.min.js";
 import { useMemo } from "react";
 
 export default function useSyntaxIdentifier(code: string, language: string) {
-  return useMemo(() => Prism.highlight(code, Prism.languages[language], language), []);
+  return useMemo(
+    () => Prism.highlight(code, Prism.languages[language], language),
+    []
+  );
 }
