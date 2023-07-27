@@ -12,10 +12,11 @@
 }
 
 .code-snippet {
-  border-radius: 16px;
+  border-radius: 6px;
   padding: 18px 0px;
   font-family: "Source Code Pro";
   font-weight: 400;
 
   font-size: 0.85rem;
+  overflow-x: scroll;
 }
