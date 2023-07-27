@@ -40,6 +40,7 @@ export default function CodeSnippet({
   syntaxRules = {} as SyntaxRuleRecord,
 }: Props) {
   const highlightedCode = useSyntaxHighlighter(code, language);
+
   const codeLines = useCodeLineRenderer(highlightedCode, highlightedLinesPattern);
   const codeSnippetConfig = useCodeSnippetConfig(
     language,

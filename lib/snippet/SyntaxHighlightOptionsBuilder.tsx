@@ -10,13 +10,14 @@ export default function buildHighlightOptions(
   syntaxRules: SyntaxRuleRecord
 ): HTMLReactParserOptions {
   const options = {
-    replace: (element: Element) => getReplaceRule(element, currentTheme, syntaxRules),
+    replace: (element: Element) =>
+      replaceElementTextNodes(element, currentTheme, syntaxRules),
   } as HTMLReactParserOptions;
 
   return options;
 }
 
-function getReplaceRule(
+function replaceElementTextNodes(
   element: Element,
   currentTheme: Theme,
   syntaxRules: SyntaxRuleRecord
@@ -27,11 +28,21 @@ function getReplaceRule(
   const syntaxColor =
     currentTheme.getColorOfSyntaxIdentifierOrNull(syntaxIdentifier) || "inherit";
 
-  // @ts-ignore
-  const children = element.children.map((child) => child.data).join("");
+  const children = getTextNodes(element);
   const parsedChildren = applySyntaxRules(children, syntaxRules, syntaxIdentifier);
 
   return getHighlightedElement(syntaxIdentifier, syntaxColor, parsedChildren);
+}
+
+function getTextNodes(element: Element) {
+  const textNodes: string[] = [];
+
+  for (const child of element.children) {
+    if (child.type === "text") textNodes.push(child.data);
+    else if (child.type === "tag") textNodes.push(...getTextNodes(child));
+  }
+
+  return textNodes;
 }
 
 function getHighlightedElement(
