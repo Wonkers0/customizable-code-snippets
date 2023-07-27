@@ -1,14 +1,13 @@
 import useSyntaxHighlighter from "../hooks/useSyntaxIdentifier";
 import { createContext, useMemo } from "react";
-import useThemeCollection, {
-  SyntaxIdentifier,
-  ThemeObject,
-} from "../hooks/useThemeCollection";
+import { SyntaxIdentifier, ThemeObject } from "../hooks/useThemeCollection";
 import CodeSnippetConfig from "./CodeSnippetConfig";
 import SyntaxRule from "./SyntaxRule";
 import useCodeLineRenderer from "../hooks/useCodeLineRenderer";
 import styles from "../styles.module.css";
 import React from "react";
+
+export { default as SyntaxRule } from "./SyntaxRule";
 
 interface Props {
   code: string;
@@ -21,20 +20,22 @@ interface Props {
   syntaxRules?: SyntaxRuleRecord;
 }
 
-export type SyntaxRuleRecord = Record<SyntaxIdentifier, SyntaxRule[]>;
+type PartialRecord<K extends keyof any, T> = {
+  [P in K]?: T;
+};
+export type SyntaxRuleRecord = PartialRecord<SyntaxIdentifier, SyntaxRule[]>;
 
 export const CodeSnippetContext = createContext<CodeSnippetConfig>(
   new CodeSnippetConfig("js", {} as SyntaxRuleRecord).setTheme("dark")
 );
 
-const defaultTheme = "dark";
 export default function CodeSnippet({
   code,
   language,
   className = "",
   id = "",
-  themeName = "", // Default value helps typescript infer the type from the build file
-  customTheme = {} as ThemeObject, // Default value helps typescript infer the type from the build file
+  themeName,
+  customTheme,
   highlightedLinesPattern = "",
   syntaxRules = {} as SyntaxRuleRecord,
 }: Props) {
@@ -49,7 +50,7 @@ export default function CodeSnippet({
 
   return (
     <pre
-      className={`${styles["code-snippet"]} ${className}`}
+      className={`${styles.codeSnippet} ${className}`}
       id={id}
       style={{
         backgroundColor: currentTheme?.getMemberOrDefault("background", "unset"),
@@ -75,11 +76,11 @@ function useCodeSnippetConfig(
 }
 
 function getActiveTheme(
-  themeName: string,
-  customTheme: ThemeObject,
+  themeName: string | undefined,
+  customTheme: ThemeObject | undefined,
   defaultTheme: string | ThemeObject
 ): string | ThemeObject {
-  if (themeName.length != 0) return themeName;
-  if (Object.keys(customTheme).length != 0) return customTheme;
+  if (themeName) return themeName;
+  if (customTheme) return customTheme;
   return defaultTheme;
 }

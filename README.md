@@ -17,11 +17,8 @@ npm install customizable-code-snippets@latest
 
 # 📦 Demo
 
-First, import the component and css:
-
 ```jsx
 import CodeSnippet from "customizable-code-snippets";
-import "customizable-code-snippets/dist/style.css";
 
 const codeSnippet = `var fruits = ["apple", "mango", "watermelon", "orange"];
  
@@ -130,7 +127,7 @@ So a syntax rule record might look like:
 First, import the class like so:
 
 ```ts
-import SyntaxRule from "customizable-code-snippets/dist/SyntaxRule";
+import CodeSnippet, { SyntaxRule } from "customizable-code-snippets";
 ```
 
 For the values of the `syntaxRules` prop, you need to pass an array of type `SyntaxRule[]`. The constructor of the `SyntaxRule` class takes in a regex pattern and a callback function.
