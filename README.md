@@ -6,6 +6,9 @@ A Feature-rich React component for displaying a snippet of code on your website
 npm install customizable-code-snippets@latest
 ```
 
+# ⚠ This package is deprecated
+I wholeheartedly recommend [react-code-blocks](https://github.com/blenderskool/react-code-block) as a viable alternative. It is exactly what this repo was meant to be, but is implemented much more eloquently.
+
 # Features
 
 - Syntax highlighting using Prism.js
